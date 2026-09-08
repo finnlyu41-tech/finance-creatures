@@ -22,6 +22,15 @@ jobs:
           python-version: '3.12'
       - name: Apply verified source changes on release branch only
         run: python maintenance/apply-v05.py
+      - name: Allow local in-memory image reads without allowing external hosts
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          path=Path('index.html')
+          text=path.read_text()
+          assert "connect-src 'self';" in text
+          path.write_text(text.replace("connect-src 'self';", "connect-src 'self' blob:;"))
+          PY
       - name: Install pinned test dependencies
         run: |
           python -m pip install -r requirements-qa.txt
@@ -58,4 +67,6 @@ jobs:
           path: |
             qa-output/
             finance-creatures-v0.5.0.zip
+            assets/characters/*.svg
+            assets/qr/
           retention-days: 14
