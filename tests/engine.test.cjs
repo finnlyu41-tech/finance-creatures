@@ -57,3 +57,21 @@ test('every type is reachable as sole winner', () => {
     assert.deepEqual(scoreAnswers(answers).winners, [target.id], `${target.id} must be reachable`);
   }
 });
+
+test('every character has a unique local illustration, comic lines and themed metadata', () => {
+  const fs = require('node:fs'), path = require('node:path');
+  const paths = new Set();
+  data.types.forEach(t => {
+    assert.match(t.image, /^\.\/assets\/characters\/[a-z-]+\.webp$/);
+    assert.ok(fs.statSync(path.resolve(__dirname, '..', t.image)).size > 1000);
+    paths.add(t.image);
+    for (const key of ['nickname', 'imageAlt', 'accent', 'soft']) assert.ok(t[key]);
+    assert.equal(t.equipment.length, 3); assert.equal(t.roasts.length, 3);
+    assert.match(t.accent, /^#[0-9a-f]{6}$/i);
+    assert.match(t.soft, /^#[0-9a-f]{6}$/i);
+  });
+  assert.equal(paths.size, 12);
+  data.questions.forEach(q => {
+    assert.ok(q.scene); q.options.forEach(o => assert.ok(o.reaction));
+  });
+});
