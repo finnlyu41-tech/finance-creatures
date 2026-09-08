@@ -71,11 +71,14 @@ with sync_playwright() as p:
   screenshot(page,'result-own-390');page.click('#quick-share');copy=page.evaluate('window.__copies.at(-1)');assert '#v4/type/long-term-prepaid' in copy and 'answers=' not in copy
   export(page,'long-term-prepaid-card',scan=True);ok('one automatic outcome, real four-axis counts, own-result recovery, QR decode, copy and PNG/native-share mock')
   page.click('#result-library');assert page.locator('.library-card').count()==16
+  assert page.locator('.library-card img').count()==16
+  assert page.locator('.library-card img').evaluate_all("imgs=>imgs.every(img=>img.getAttribute('alt')==='')")
   page.fill('#library-search','DARN');assert page.locator('.library-card').count()==1
   page.select_option('#library-category','负债类');assert page.locator('#library-empty').is_visible()
   page.fill('#library-search','');assert page.locator('.library-card').count()==2
   page.select_option('#library-category','all');assert page.locator('.library-card').count()==16
   page.locator('[data-type="provision"]').click();assert '预览' in page.locator('#result-context').inner_text();assert page.locator('.axis-track').count()==0
+  assert page.locator('#result-art img').get_attribute('alt')
   page.go_back(wait_until='networkidle');assert page.locator('#library-view').is_visible();page.click('#library-return');assert '唯一结果' in page.locator('#result-context').inner_text()
   page.click('#result-method');page.click('#method-return');assert page.locator('.axis-track').count()==4
   ok('search/category filters, real browser Back, preview labeling and own-result return')

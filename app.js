@@ -10,13 +10,14 @@
   let storageAvailable=true,restoringRoute=false;
   function el(tag,text,cls){const n=document.createElement(tag);if(text!==undefined)n.textContent=text;if(cls)n.className=cls;return n;}
   function theme(node,t){node.style.setProperty('--accent',t.accent);node.style.setProperty('--soft',t.soft);}
-  function portrait(t,eager=false){
+  function portrait(t,eager=false,decorative=false){
     if(!t.image){
-      const p=el('div',undefined,'art-placeholder');p.setAttribute('role','img');p.setAttribute('aria-label',t.imageAlt);
+      const p=el('div',undefined,'art-placeholder');
+      if(decorative)p.setAttribute('aria-hidden','true');else{p.setAttribute('role','img');p.setAttribute('aria-label',t.imageAlt);}
       p.append(el('span',t.accountNo,'placeholder-no'),el('span',t.name,'placeholder-name'),el('span','插画暂未载入','placeholder-status'));return p;
     }
-    const img=new Image();img.src=t.image;img.alt=t.imageAlt;img.width=384;img.height=341;img.loading=eager?'eager':'lazy';img.decoding='async';img.className=t.artStatus==='licensed'?'licensed-portrait':'';
-    img.addEventListener('error',()=>{const fallback=el('div',t.name+' · 插画暂未载入','art-fallback');fallback.setAttribute('role','img');fallback.setAttribute('aria-label',t.name+'，插画载入失败，文字结果不受影响');img.replaceWith(fallback);},{once:true});return img;
+    const img=new Image();img.src=t.image;img.alt=decorative?'':t.imageAlt;img.width=384;img.height=341;img.loading=eager?'eager':'lazy';img.decoding='async';img.className=t.artStatus==='licensed'?'licensed-portrait':'';
+    img.addEventListener('error',()=>{const fallback=el('div',t.name+' · 插画暂未载入','art-fallback');if(decorative)fallback.setAttribute('aria-hidden','true');else{fallback.setAttribute('role','img');fallback.setAttribute('aria-label',t.name+'，插画载入失败，文字结果不受影响');}img.replaceWith(fallback);},{once:true});return img;
   }
   function setFragment(fragment='',replace=false){
     if(restoringRoute||location.hash===fragment)return;
@@ -143,7 +144,7 @@
     $('library-count').textContent=`显示 ${matches.length} / 16 个科目`;$('library-empty').hidden=matches.length>0;
     matches.forEach((t,i)=>{
       const card=el('button',undefined,'library-card');card.dataset.type=t.id;theme(card,t);
-      const art=el('span',undefined,'library-art');art.append(el('span',`${String(types.indexOf(t)+1).padStart(2,'0')} / ${t.code}`,'mono'),portrait(t,i<4));
+      const art=el('span',undefined,'library-art');art.append(el('span',`${String(types.indexOf(t)+1).padStart(2,'0')} / ${t.code}`,'mono'),portrait(t,i<4,true));
       card.append(art,el('strong',t.name),el('span',t.nickname,'card-nickname'),el('span',t.tagline,'tagline'),el('span',`${t.accountNo} · ${t.category}`,'account-category'));
       card.addEventListener('click',()=>renderResult(t.id,'preview'));$('library-grid').append(card);
     });
