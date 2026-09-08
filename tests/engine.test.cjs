@@ -66,7 +66,7 @@ test('every character has a unique local illustration, comic lines and themed me
     assert.ok(fs.statSync(path.resolve(__dirname, '..', t.image)).size > 1000);
     paths.add(t.image);
     for (const key of ['nickname', 'imageAlt', 'accent', 'soft']) assert.ok(t[key]);
-    assert.equal(t.equipment.length, 3); assert.equal(t.roasts.length, 3);
+    assert.equal(t.equipment.length, 3); assert.equal(t.roasts.length, 5);
     assert.match(t.accent, /^#[0-9a-f]{6}$/i);
     assert.match(t.soft, /^#[0-9a-f]{6}$/i);
   });
@@ -74,4 +74,53 @@ test('every character has a unique local illustration, comic lines and themed me
   data.questions.forEach(q => {
     assert.ok(q.scene); q.options.forEach(o => assert.ok(o.reaction));
   });
+});
+
+const { secondaryCandidates, combination, parseFragment, resultFragment } = require('../engine.js');
+test('sparse answer arrays are rejected, rather than silently scored', () => {
+  assert.throws(() => scoreAnswers(Array(12)));
+  const partial = Array(12).fill(0); delete partial[5];
+  assert.throws(() => scoreAnswers(partial));
+});
+test('all 66 bespoke pairings exist, both directions agree, no self or invalid pairs', () => {
+  assert.equal(Object.keys(data.combinations).length, 66);
+  let n = 0;
+  for (const a of data.types) for (const b of data.types) {
+    if (a.id === b.id) { assert.equal(combination(a.id, b.id), null); continue; }
+    const pair = combination(a.id, b.id);
+    assert.ok(pair && pair.title.length > 2 && pair.line.length > 8);
+    assert.deepEqual(pair, combination(b.id, a.id));
+    n++;
+  }
+  assert.equal(n, 132);
+  assert.equal(combination('unknown',data.types[0].id), null);
+  assert.equal(combination(null, null), null);
+});
+test('secondary candidates are exactly the highest remaining positive scores, including co-winners', () => {
+  for(let seed=0; seed<256; seed++) {
+    const answers = Array.from({length:12},(_,i)=>(seed >> ((i%4)*2))&3);
+    const r = scoreAnswers(answers);
+    for(const primary of r.winners) {
+      const expected = Object.entries(r.counts).filter(([id,n])=>id!==primary && n>0);
+      const max = Math.max(...expected.map(([,n])=>n));
+      assert.deepEqual(new Set(secondaryCandidates(answers, primary)), new Set(expected.filter(([,n])=>n===max).map(([id])=>id)));
+    }
+    const nonWinner = data.types.find(t=>!r.winners.includes(t.id));
+    if(nonWinner) assert.throws(()=>secondaryCandidates(answers,nonWinner.id));
+  }
+});
+test('share fragments round-trip all 132 directed pairings and all 12 singles', () => {
+  for (const a of data.types) {
+    assert.deepEqual(parseFragment(resultFragment(a.id)), {view:'result',primary:a.id,secondary:null});
+    for (const b of data.types) if (a.id !== b.id) {
+      assert.deepEqual(parseFragment(resultFragment(a.id,b.id)), {view:'result',primary:a.id,secondary:b.id});
+    }
+  }
+});
+test('invalid routes and duplicate identities do not create fictional results', () => {
+  for (const value of ['#type/unknown','#type/goodwill/with/goodwill','#type/goodwill/with/unknown','#type/goodwill/extra','#type/<script>','#type/goodwill?answers=1']) assert.deepEqual(parseFragment(value),{view:'home'});
+  assert.deepEqual(parseFragment('#mix'),{view:'mix'});
+  assert.deepEqual(parseFragment('#library'),{view:'library'});
+  assert.throws(()=>resultFragment('unknown'));
+  assert.throws(()=>resultFragment('goodwill','goodwill'));
 });
