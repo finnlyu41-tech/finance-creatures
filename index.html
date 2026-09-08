@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f5f3e9">
+  <meta name="description" content="12 道情境题，鉴定你今天是哪种财会生物。商誉、预计负债，还是在建工程？不考准则，纯属娱乐。">
+  <meta name="robots" content="noindex,follow">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta property="og:title" content="财会生物鉴定中心｜查查你在账上算什么东西">
+  <meta property="og:description" content="不考准则，不评能力。12 道题，给今天的自己一个离谱但合理的身份。">
+  <meta property="og:type" content="website">
+  <title>财会生物鉴定中心 · 今天先不审账</title>
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <link rel="stylesheet" href="./style.css">
+  <script defer src="./content.js"></script>
+  <script defer src="./engine.js"></script>
+  <script defer src="./app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到正文</a>
+  <header class="site-header">
+    <button id="brand-home" class="brand" aria-label="返回财会生物鉴定中心首页"><span class="brand-mark" aria-hidden="true">记</span><span>财会生物<br><strong>鉴定中心</strong></span></button>
+    <span class="edition">非正式鉴定所<br><b>VOL. 001 / 试营业</b></span>
+  </header>
+  <main id="main" tabindex="-1">
+    <section id="home-view" class="view">
+      <div class="eyebrow"><span class="live-dot" aria-hidden="true"></span> 今日营业中 · 仅供娱乐</div>
+      <h1>查查你在账上<br>算<span class="underlined">什么东西</span>。</h1>
+      <p class="hero-copy">今天先不审账，鉴定一下你自己。<br>不考准则，不评能力，也不布置成长作业。</p>
+      <div class="intake-sheet">
+        <div class="sheet-heading"><span>鉴 定 受 理 单</span><span class="mono">NO. 001</span></div>
+        <dl class="intake-rows"><div><dt>送检样本</dt><dd>今天来上班的你</dd></div><div><dt>鉴定方法</dt><dd>12 道题 · 凭感觉选</dd></div><div><dt>可能去向</dt><dd>商誉 / 预计负债 / 其他神秘科目</dd></div></dl>
+        <button id="start" class="button button-primary">开始鉴定 <span aria-hidden="true">↗</span></button>
+        <p class="micro">不用登录，不用写名字。请勿按面试答案作答。</p>
+      </div>
+      <button id="home-library" class="text-button">先偷看一下，都有什么东西 <span aria-hidden="true">→</span></button>
+      <div class="ledger-note"><span class="mono">本期摘要</span><p>公司说你是重要资产。<br>具体是哪一项，今天查清楚。</p></div>
+    </section>
+
+    <section id="quiz-view" class="view" hidden>
+      <div class="quiz-top"><span class="eyebrow">样本信息采集中</span><span id="question-count" class="mono"></span></div>
+      <div id="progress" class="progress" role="progressbar" aria-label="答题进度" aria-valuemin="0" aria-valuemax="12" aria-valuenow="0"><span id="progress-fill"></span></div>
+      <form id="quiz-form">
+        <fieldset class="question-fieldset"><legend id="question-title" tabindex="-1"></legend><p class="question-hint">选最像今天的你，不必选最体面的答案。</p><div id="options" class="options"></div></fieldset>
+        <div class="quiz-nav"><button type="button" id="previous" class="button button-quiet">上一题</button><button type="submit" id="next" class="button button-primary" disabled>下一题 <span aria-hidden="true">→</span></button></div>
+      </form>
+      <p class="micro align-center">没有标准答案。你的同事也未必有。</p>
+    </section>
+
+    <section id="tie-view" class="view" hidden>
+      <div class="eyebrow">发现复合型生物</div><h2 tabindex="-1" id="tie-heading">有点复杂，<br>不只挂一项。</h2><p class="section-intro">这几种在本次答题中并列。<br>不替你硬判，选一句最想认领的。</p><div id="tie-options" class="type-list"></div><button id="tie-back" class="text-button">返回最后一题</button>
+    </section>
+
+    <section id="result-view" class="view" hidden>
+      <p id="result-context" class="eyebrow"></p>
+      <article id="result-card" class="result-card">
+        <div class="result-topline"><span>财 会 生 物 鉴 定 单</span><span id="type-code" class="mono"></span></div>
+        <div class="result-identity"><p id="type-label" class="type-label"></p><h2 id="result-name" tabindex="-1"></h2><span class="stamp" aria-hidden="true">纯属<br>娱乐</span></div>
+        <p id="result-tagline" class="result-tagline"></p><div id="result-body" class="result-body"></div>
+        <dl id="result-facts" class="result-facts"></dl>
+        <div class="result-footer"><span>FINN / 财会生物鉴定中心</span><span>不评价专业能力</span></div>
+      </article>
+      <p id="tie-disclosure" class="micro" hidden></p>
+      <div class="result-actions"><button id="save-card" class="button button-primary">带走鉴定卡 <span aria-hidden="true">↓</span></button><button id="share-result" class="button button-quiet">分享给朋友 <span aria-hidden="true">↗</span></button></div>
+      <div id="copy-fallback" hidden><label for="copy-text">复制受限，请长按下面文字手动复制：</label><textarea id="copy-text" rows="4" readonly></textarea></div>
+      <div class="under-actions"><button id="restart" class="text-button">申请复核 · 重新测</button><button id="result-library" class="text-button">看看其他生物 →</button></div>
+    </section>
+
+    <section id="library-view" class="view" hidden>
+      <div class="eyebrow">本期在册 · 12 种</div><h2 id="library-heading" tabindex="-1">看看大家都<br>是什么东西。</h2><p class="section-intro">这里是图鉴，不是排名。<br>随便翻翻，不算正式认领。</p><div id="library-grid" class="library-grid"></div><div class="under-actions"><button id="library-start" class="button button-primary">轮到我了 · 开始鉴定 ↗</button><button id="library-return" class="text-button">返回首页</button></div>
+    </section>
+    <noscript><p class="notice">这个小测试需要 JavaScript 才能运行。请在浏览器设置中启用 JavaScript 后重新打开。</p></noscript>
+  </main>
+  <footer class="site-footer"><p>借财会术语开个玩笑，别拿去做绩效。</p><details><summary>关于这个小测试 / 隐私</summary><p>原创娱乐测试，不是 MBTI 或 SBTI 官方产品，也不是心理诊断、能力评价或会计处理指引。结果仅是本次选择的趣味映射。</p><p>答案只在当前浏览器页面内计算，不发送给本站的服务器；没有登录、广告、追踪统计或第三方字体。刷新会清空答题。分享只带类型，不带原始答案。托管平台 GitHub Pages 可能产生常规访问日志。</p><p>试营业 v0.1.0 · 内容 v0.4。笑点和体验都还在试。</p></details><span class="footer-code mono">FINN / NO ADJUSTING ENTRIES REQUIRED</span></footer>
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+  <dialog id="save-dialog" aria-labelledby="save-heading"><div class="dialog-top"><h3 id="save-heading">带走这张鉴定卡</h3><button id="close-save" class="icon-button" aria-label="关闭保存图片窗口">×</button></div><p class="micro">手机可长按图片保存；也可以点击下方下载。</p><img id="save-preview" alt="财会生物鉴定卡"><a id="download-card" class="button button-primary" download>下载 PNG 图片 ↓</a></dialog>
+</body>
+</html>
