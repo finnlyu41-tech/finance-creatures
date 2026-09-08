@@ -1,46 +1,51 @@
-/* Deterministic local scoring. Ties remain explicit; no personality percentages. */
-(function (root) {
+/* Four independently counted entertainment axes. Five binary votes per axis => no ties. */
+(function(root){
   'use strict';
-  const data = typeof module !== 'undefined' && module.exports ? require('./content.js') : root.FinanceContent;
-  const validIds = new Set(data.types.map(type => type.id));
-  function scoreAnswers(answers) {
-    if (!Array.isArray(answers) || answers.length !== data.questions.length) throw new TypeError('请先完成所有题目。');
-    const counts = Object.fromEntries(data.types.map(type => [type.id, 0]));
-    for (let i = 0; i < data.questions.length; i += 1) {
-      const choice = answers[i];
-      if (!Number.isInteger(choice) || choice < 0 || choice >= data.questions[i].options.length) throw new TypeError('存在未完成或无效的答案。');
-      const id = data.questions[i].options[choice].type;
-      if (!Object.hasOwn(counts, id)) throw new Error('题库含有未知类型。');
-      counts[id] += 1;
+  const data=typeof module!=='undefined'&&module.exports?require('./content.js'):root.FinanceContent;
+  const axisIds=new Set(data.axes.map(a=>a.id));
+  const byPattern=new Map(data.types.map(t=>[t.pattern,t]));
+  const byId=new Map(data.types.map(t=>[t.id,t]));
+  if(data.axes.length!==4 || data.types.length!==16 || byPattern.size!==16) throw new Error('维度或科目映射不完整。');
+  for(let i=0;i<16;i++) if(!byPattern.has(i.toString(2).padStart(4,'0'))) throw new Error('存在未映射的四维组合。');
+  for(const axis of data.axes){
+    const qs=data.questions.filter(q=>q.axis===axis.id);
+    if(qs.length!==5) throw new Error('每个维度必须恰好五题。');
+    for(const q of qs){
+      if(q.options.length!==4 || q.options.filter(o=>o.side===0).length!==2 || q.options.filter(o=>o.side===1).length!==2) throw new Error('选项必须均衡对应两侧。');
     }
-    const max = Math.max(...Object.values(counts));
-    return { counts, max, winners: data.types.filter(type => counts[type.id] === max).map(type => type.id) };
   }
-  function secondaryCandidates(answers, primary) {
-    const result = scoreAnswers(answers);
-    if (!result.winners.includes(primary)) throw new TypeError('主生物必须来自本次最高分类型。');
-    const remaining = data.types.filter(type => type.id !== primary);
-    const max = Math.max(0, ...remaining.map(type => result.counts[type.id]));
-    return max > 0 ? remaining.filter(type => result.counts[type.id] === max).map(type => type.id) : [];
-  }
-  function combination(primary, secondary) {
-    if (!validIds.has(primary) || !validIds.has(secondary) || primary === secondary) return null;
-    return data.combinations[[primary, secondary].sort().join('|')] || null;
-  }
-  function parseFragment(fragment) {
-    if (fragment === '#library') return { view: 'library' };
-    if (fragment === '#mix') return { view: 'mix' };
-    const match = /^#type\/([a-z-]+)(?:\/with\/([a-z-]+))?$/.exec(fragment);
-    if (match && validIds.has(match[1]) && (!match[2] || combination(match[1], match[2]))) {
-      return { view: 'result', primary: match[1], secondary: match[2] || null };
+  if(data.questions.length!==20 || data.questions.some(q=>!axisIds.has(q.axis))) throw new Error('题库维度不匹配。');
+  function scoreAnswers(answers){
+    if(!Array.isArray(answers)||answers.length!==data.questions.length) throw new TypeError('请先完成所有题目。');
+    const votes=Object.fromEntries(data.axes.map(a=>[a.id,[0,0]]));
+    for(let i=0;i<data.questions.length;i++){
+      const choice=answers[i],q=data.questions[i];
+      if(!Number.isInteger(choice)||choice<0||choice>=q.options.length) throw new TypeError('存在未完成或无效的答案。');
+      votes[q.axis][q.options[choice].side]++;
     }
-    return { view: 'home' };
+    const axes=data.axes.map(a=>{
+      const [left,right]=votes[a.id];
+      if(left+right!==5||left===right) throw new Error('计票校验未通过。');
+      const side=left>right?0:1;
+      return {id:a.id,left,right,side,votes:Math.max(left,right),lean:Math.max(left,right)===3?'略偏':Math.max(left,right)===4?'较偏':'明显偏'};
+    });
+    const pattern=axes.map(a=>a.side).join('');
+    const type=byPattern.get(pattern);
+    return {typeId:type.id,pattern,code:type.code,axes};
   }
-  function resultFragment(primary, secondary = null) {
-    if (!validIds.has(primary) || (secondary && !combination(primary, secondary))) throw new TypeError('未知的生物组合。');
-    return `#type/${primary}${secondary ? `/with/${secondary}` : ''}`;
+  function resultFragment(id){
+    if(!byId.has(id)) throw new TypeError('未知科目。');
+    return '#v4/type/'+id;
   }
-  const api = { scoreAnswers, secondaryCandidates, combination, parseFragment, resultFragment };
-  if (typeof module !== 'undefined' && module.exports) module.exports = api;
-  else root.FinanceEngine = api;
+  function parseFragment(fragment){
+    if(fragment==='#library') return {view:'library'};
+    if(fragment==='#method') return {view:'method'};
+    // Old scores cannot be reinterpreted with the new model. Do not silently rename results.
+    if(fragment==='#mix'||/^#type\//.test(fragment)) return {view:'legacy'};
+    const match=/^#v4\/type\/([a-z-]+)$/.exec(fragment);
+    if(match&&byId.has(match[1])) return {view:'result',typeId:match[1]};
+    return {view:'home'};
+  }
+  const api={scoreAnswers,resultFragment,parseFragment};
+  if(typeof module!=='undefined'&&module.exports) module.exports=api;else root.FinanceEngine=api;
 })(globalThis);

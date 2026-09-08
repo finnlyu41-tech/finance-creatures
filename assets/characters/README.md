@@ -1,5 +1,11 @@
-# 财会生物原创角色插画
+# 原创角色插画与 v0.4 科目对应
 
-本组 12 张人物图为 2026-09-08 本项目新生成的 AI 辅助原创插画，采用统一的几何切面、扁平色块与道具叙事。仅以人格图鉴常见的视觉语言为方向，没有使用或修改 MBTI / 16Personalities 官方人物资产，也不表示品牌关联。
+原有 12 张图为本项目 AI 辅助原创插画，使用几何切面、扁平色块、办公道具。未使用或修改 MBTI / 16Personalities 官方人物，不代表品牌关联。
 
-每个文件对应 content.js 中同名 id；由一张 4 × 3 人物设定稿按固定网格切出并压缩为 WebP。完整原图存放于作者的私有 Obsidian 附件，不在网页重复加载。
+v0.4 保留原文件名避免重复资产，显示名称以 content.js 为准：
+- construction → 在建工程；fixed-asset → 固定资产；receivables → 应收账款。
+- skepticism → 坏账准备；provision → 预计负债；going-concern → 主营业务收入。
+- goodwill → 商誉；windfall → 营业外收入；substance → 研发支出。
+- other-receivables → 其他应收款；materiality → 管理费用；depreciated → 累计折旧。
+
+库存现金、银行存款、长期待摊费用、应付职工薪酬新增插画生成失败，image=null，artStatus=placeholder。网页和分享图均明确显示“人物图待补”，不能算已经完成的四张插画。

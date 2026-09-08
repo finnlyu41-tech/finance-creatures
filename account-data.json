@@ -1,0 +1,130 @@
+[
+  {
+    "id": "cash",
+    "name": "库存现金",
+    "accountNo": "1001",
+    "category": "资产类",
+    "pattern": "0000",
+    "code": "DARF"
+  },
+  {
+    "id": "construction",
+    "name": "在建工程",
+    "accountNo": "1604",
+    "category": "资产类",
+    "pattern": "0001",
+    "code": "DARN"
+  },
+  {
+    "id": "bank-deposits",
+    "name": "银行存款",
+    "accountNo": "1002",
+    "category": "资产类",
+    "pattern": "0010",
+    "code": "DAEF"
+  },
+  {
+    "id": "fixed-asset",
+    "name": "固定资产",
+    "accountNo": "1601",
+    "category": "资产类",
+    "pattern": "0011",
+    "code": "DAEN"
+  },
+  {
+    "id": "receivables",
+    "name": "应收账款",
+    "accountNo": "1122",
+    "category": "资产类",
+    "pattern": "0100",
+    "code": "DLRF"
+  },
+  {
+    "id": "long-term-prepaid",
+    "name": "长期待摊费用",
+    "accountNo": "1801",
+    "category": "资产类",
+    "pattern": "0101",
+    "code": "DLRN"
+  },
+  {
+    "id": "allowance",
+    "name": "坏账准备",
+    "accountNo": "1231",
+    "category": "资产类 · 备抵",
+    "pattern": "0110",
+    "code": "DLEF"
+  },
+  {
+    "id": "provision",
+    "name": "预计负债",
+    "accountNo": "2801",
+    "category": "负债类",
+    "pattern": "0111",
+    "code": "DLEN"
+  },
+  {
+    "id": "revenue",
+    "name": "主营业务收入",
+    "accountNo": "6001",
+    "category": "损益类 · 收入",
+    "pattern": "1000",
+    "code": "CARF"
+  },
+  {
+    "id": "goodwill",
+    "name": "商誉",
+    "accountNo": "1711",
+    "category": "资产类",
+    "pattern": "1001",
+    "code": "CARN"
+  },
+  {
+    "id": "windfall",
+    "name": "营业外收入",
+    "accountNo": "6301",
+    "category": "损益类 · 利得",
+    "pattern": "1010",
+    "code": "CAEF"
+  },
+  {
+    "id": "rd",
+    "name": "研发支出",
+    "accountNo": "5301",
+    "category": "成本类",
+    "pattern": "1011",
+    "code": "CAEN"
+  },
+  {
+    "id": "other-receivables",
+    "name": "其他应收款",
+    "accountNo": "1221",
+    "category": "资产类",
+    "pattern": "1100",
+    "code": "CLRF"
+  },
+  {
+    "id": "payroll",
+    "name": "应付职工薪酬",
+    "accountNo": "2211",
+    "category": "负债类",
+    "pattern": "1101",
+    "code": "CLRN"
+  },
+  {
+    "id": "management-expense",
+    "name": "管理费用",
+    "accountNo": "6602",
+    "category": "损益类 · 费用",
+    "pattern": "1110",
+    "code": "CLEF"
+  },
+  {
+    "id": "accumulated-depreciation",
+    "name": "累计折旧",
+    "accountNo": "1602",
+    "category": "资产类 · 备抵",
+    "pattern": "1111",
+    "code": "CLEN"
+  }
+]
