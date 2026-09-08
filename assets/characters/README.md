@@ -1,11 +1,9 @@
-# 原创角色插画与 v0.4 科目对应
+# 人物素材
 
-原有 12 张图为本项目 AI 辅助原创插画，使用几何切面、扁平色块、办公道具。未使用或修改 MBTI / 16Personalities 官方人物，不代表品牌关联。
+12 张 `.webp` 为本项目 v0.2 使用图像工具生成的原创辅助素材，后来映射到 v0.4 会计科目角色。
 
-v0.4 保留原文件名避免重复资产，显示名称以 content.js 为准：
-- construction → 在建工程；fixed-asset → 固定资产；receivables → 应收账款。
-- skepticism → 坏账准备；provision → 预计负债；going-concern → 主营业务收入。
-- goodwill → 商誉；windfall → 营业外收入；substance → 研发支出。
-- other-receivables → 其他应收款；materiality → 管理费用；depreciated → 累计折旧。
+4 张 `.svg` 为 Pablo Stanley 的 Humaaans 授权现成人物素材，保留原文件。采用镜像随附的 CC BY 4.0 归属要求，并在网页与导出卡片标注来源。不是本项目新生成的人物，也没有伪称具备会计道具。
 
-库存现金、银行存款、长期待摊费用、应付职工薪酬新增插画生成失败，image=null，artStatus=placeholder。网页和分享图均明确显示“人物图待补”，不能算已经完成的四张插画。
+详细源文件、不可变 Git blob SHA、许可证及网站见 ../../ART-CREDITS.md 和 ../../scripts/art-sources.json。
+
+网页只加载本地版本，不热链第三方 CDN。人物图加载失败时文字结果仍有效，页面明确提示。

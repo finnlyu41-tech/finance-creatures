@@ -7,16 +7,23 @@
   <meta name="description" content="20 道情境题，4 条会计主题维度，只给 1 个科目身份。16 种真实会计科目，人物与工作笑话。纯娱乐，别拿去做绩效。">
   <meta name="robots" content="noindex,follow">
   <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none'">
   <meta property="og:title" content="财会生物鉴定中心｜查查你在账上算什么东西">
   <meta property="og:description" content="借贷、资产负债、收入费用、流动非流动。20 道题，看看你在账上算哪个科目。">
   <meta property="og:type" content="website">
+  <meta property="og:url" content="https://finnlyu41-tech.github.io/finance-creatures/">
+  <meta property="og:image" content="https://finnlyu41-tech.github.io/finance-creatures/assets/social-preview.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="财会生物鉴定中心，16 个会计科目、4 条维度、1 个结果">
+  <meta name="twitter:card" content="summary_large_image">
   <title>财会生物鉴定中心 · 查查你在账上算什么东西</title>
   <link rel="icon" type="image/svg+xml" href="./favicon.svg">
-  <link rel="stylesheet" href="./style.css?v=0.3.0">
-  <link rel="stylesheet" href="./v4.css?v=0.4.0">
-  <script defer src="./content.js?v=0.4.0"></script>
-  <script defer src="./engine.js?v=0.4.0"></script>
-  <script defer src="./app.js?v=0.4.0"></script>
+  <link rel="stylesheet" href="./style.css?v=0.5.0">
+  <script defer src="./content.js?v=0.5.0"></script>
+  <script defer src="./engine.js?v=0.5.0"></script>
+  <script defer src="./session.js?v=0.5.0"></script>
+  <script defer src="./app.js?v=0.5.0"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">跳到正文</a>
@@ -30,7 +37,8 @@
         <div class="hero-words">
           <div class="eyebrow"><span class="live-dot" aria-hidden="true"></span> 16 个真科目，今天只入账 1 个</div>
           <h1>查查你在账上<br>算<span class="underlined">什么东西</span>。</h1>
-          <p class="hero-copy">上班把你变成什么科目？<br>这次不兼任，不混搭，不让你自己挑。</p>
+          <p class="hero-copy">上班把你变成什么科目？<br>20 道题，查出那个天天在替你上班的科目。</p>
+          <div id="resume-banner" class="resume-banner" hidden><p id="resume-summary"></p><div><button id="resume" class="text-button">接着入账 →</button><button id="discard-session" class="text-button">清空</button></div></div>
           <div class="hero-actions"><button id="start" class="button button-primary">把我入账 <span aria-hidden="true">→</span></button><button id="home-library" class="text-button">先看看，都有谁 →</button></div>
           <p class="micro hero-meta">20 道题 · 4 个维度 · 1 个结果<br><span>不登录，不考证。只查你心里那句。</span></p>
         </div>
@@ -56,7 +64,7 @@
         <p id="answer-reaction" class="answer-reaction" aria-live="polite">你选你的，不用向领导解释。</p>
         <div class="quiz-nav"><button type="button" id="previous" class="button button-quiet">← 上一题</button><button type="submit" id="next" class="button button-primary" disabled>下一题 →</button></div>
       </form>
-      <p class="micro align-center">没有标准答案。你的同事也未必有。</p>
+      <div class="quiz-utility"><button id="pause-quiz" class="text-button" type="button">先歇会儿，保留进度</button><span class="keyboard-hint">键盘 1—4 选答案，Enter 下一题</span></div><p id="quiz-storage" class="micro align-center"></p>
     </section>
 
     <section id="result-view" class="view result-wrap" hidden>
@@ -67,7 +75,7 @@
           <div class="portrait-stage"><div id="result-art"></div><span id="result-nickname" class="portrait-label"></span></div>
           <div class="result-identity"><p id="type-label" class="type-label"></p><h2 id="result-name" tabindex="-1"></h2><p id="result-tagline" class="result-tagline"></p><div id="result-equipment" class="equipment"></div></div>
         </div>
-        <section class="dimension-panel" aria-labelledby="dimension-heading"><div class="dimension-heading"><h3 id="dimension-heading">你的四维反应画像</h3><span id="profile-code" class="mono"></span></div><p id="dimension-note" class="micro"></p><div id="dimension-rows"></div></section><div class="result-story"><div id="result-body" class="result-body"></div><dl id="result-facts" class="result-facts"></dl></div>
+        <div class="quick-result-actions"><button id="quick-save" class="button button-primary">带走这张人物卡 ↓</button><button id="quick-share" class="button button-quiet">分享我的科目 ↗</button></div><p id="art-credit" class="art-credit" hidden></p><div id="dimension-pills" class="dimension-pills" aria-label="四个玩法维度"></div><details id="dimension-details" class="dimension-panel"><summary class="dimension-heading"><strong id="dimension-heading">四维账本</strong><span id="profile-code" class="mono"></span><span class="details-arrow" aria-hidden="true">＋</span></summary><p id="dimension-note" class="micro"></p><div id="dimension-rows"></div></details><div class="result-story"><div id="result-body" class="result-body"></div><dl id="result-facts" class="result-facts"></dl></div>
         <details class="account-note"><summary>这个科目，真的叫什么？</summary><p id="account-definition"></p><p class="micro">正式类别与玩法维度是两回事。<a href="https://cas.xmu.edu.cn/info/2143/5014.htm" target="_blank" rel="noopener noreferrer">查看科目来源</a></p></details><div class="result-footer"><span>FINN / 不给人生建议，先笑一下</span><span>纯属娱乐</span></div>
       </article>
       <div class="roast-box"><span class="eyebrow">鉴定员又补了一句</span><p id="result-roast" aria-live="polite"></p><button id="next-roast" class="text-button">再补一刀 ↻</button></div>
@@ -79,7 +87,7 @@
 
     <section id="library-view" class="view" hidden>
       <div class="library-heading-row"><div><div class="eyebrow">科目图鉴 · 16 型全员到岗</div><h2 id="library-heading" tabindex="-1">会计科目表，<br>怎么全是熟人。</h2></div><p class="section-intro">这里是图鉴，不是多结果。<br>测完只给你一个科目。</p></div>
-      <div id="library-grid" class="library-grid"></div><div class="under-actions library-bottom"><button id="library-start" class="button button-primary">轮到我了 · 开始鉴定 →</button><button id="library-return" class="text-button">返回首页</button></div>
+      <div class="library-tools"><label for="library-search">找个熟人<input id="library-search" type="search" placeholder="科目、编号、四字母…" autocomplete="off" maxlength="60"></label><label for="library-category">按真实科目类别<select id="library-category"><option value="all">全部 16 科目</option><option value="资产类">资产类</option><option value="负债类">负债类</option><option value="损益类">损益类</option><option value="成本类">成本类</option></select></label></div><p id="library-count" class="micro" aria-live="polite"></p><p id="library-empty" class="notice" hidden>没找到这个科目。换个关键词，或者选“全部 16 科目”。</p><div id="library-grid" class="library-grid"></div><div class="under-actions library-bottom"><button id="library-start" class="button button-primary">轮到我了 · 开始鉴定 →</button><button id="library-return" class="text-button">返回首页</button></div>
     </section>
 
     <section id="method-view" class="view narrow" hidden>
@@ -94,8 +102,8 @@
     </section>
     <noscript><p class="notice">这个小测试需要 JavaScript 才能运行。请在浏览器设置中启用 JavaScript 后重新打开。</p></noscript>
   </main>
-  <footer class="site-footer"><p>借会计科目开个玩笑，别拿去做绩效。</p><details><summary>关于 / 隐私 / 版本</summary><p>原创娱乐作品，不是 MBTI、16Personalities 或 SBTI 官方产品，不是心理诊断、能力评价或会计指引。已有 12 张 AI 辅助原创人物插画；新增 4 个科目暂用明确标注的文字占位，人物图待补。</p><p>答案仅在当前页面内存里计分，刷新清空。不登录、无广告、无追踪统计、无远程字体。分享链接只含版本与单个科目标识，不含原始答案；接收者不会看到假造的个人得分。GitHub Pages 可能保留常规访问日志。</p><p>试营业 v0.4.0 · 16 个会计科目，20 道题，4 条玩法维度，唯一结果。每维 5 票，不平票；同版同答案得到同一结果。角色与四维组合是编辑式娱乐设定，维度不是科目分类或真实借贷方向。</p></details><span class="footer-code mono">FINN / LIFE IS NOT A BALANCE SHEET</span></footer>
+  <footer class="site-footer"><p>借会计科目开个玩笑，别拿去做绩效。</p><details><summary>关于 / 隐私 / 版本</summary><p>原创娱乐作品，不是 MBTI、16Personalities 或 SBTI 官方产品，不是心理诊断、能力评价或会计指引。16 个角色均有插画。12 张为本项目 AI 辅助原创；库存现金、银行存款、长期待摊费用、应付职工薪酬使用 Pablo Stanley 的 Humaaans 现成人物插画，按来源镜像的 CC BY 4.0 署名使用，并非本项目原创。<a href="./ART-CREDITS.md" target="_blank" rel="noopener noreferrer">素材来源与许可</a>。</p><p>答案仅在浏览器本地计分，并用 sessionStorage 保留当前标签页的进度，刷新可继续；超过 24 小时或内容版本变化后失效。可随时用下方按钮清空。浏览器禁用存储时会提示，并退回仅当前页面内存。不登录、无广告、无追踪统计、无远程字体。分享链接只含版本与单个科目标识，不含原始答案；接收者不会看到假造的个人得分。GitHub Pages 可能保留常规访问日志。</p><p>试营业 v0.5.0 · 16 个会计科目，20 道题，4 条玩法维度，唯一结果。每维 5 票，不平票；同版同答案得到同一结果。角色与四维组合是编辑式娱乐设定，维度不是科目分类或真实借贷方向。</p></details><button id="clear-session" class="text-button">清空本标签页答题记录</button><span class="footer-code mono">FINN / LIFE IS NOT A BALANCE SHEET</span></footer>
   <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
-  <dialog id="save-dialog" aria-labelledby="save-heading"><div class="dialog-top"><h3 id="save-heading">带走这张科目卡</h3><button id="close-save" class="icon-button" aria-label="关闭保存图片窗口">×</button></div><p class="micro">手机可长按图片保存；也可点击下方下载。</p><img id="save-preview" alt="财会生物人物卡"><div class="dialog-share-actions"><button id="share-image" class="button button-primary" hidden>分享这张图 ↗</button><a id="download-card" class="button button-quiet" download>下载图片 ↓</a></div><p class="micro align-center">卡片在本页合成，不上传答案。</p></dialog>
+  <dialog id="save-dialog" aria-labelledby="save-heading"><div class="dialog-top"><h3 id="save-heading">带走这张科目卡</h3><button id="close-save" class="icon-button" aria-label="关闭保存图片窗口">×</button></div><p id="save-message" class="micro">手机可长按图片保存；也可点击下方下载。</p><img id="save-preview" alt="财会生物人物卡"><div class="dialog-share-actions"><button id="share-image" class="button button-primary" hidden>分享这张图 ↗</button><a id="download-card" class="button button-quiet" download>下载图片 ↓</a></div><p class="micro align-center">卡片在本页合成，不上传答案。</p></dialog>
 </body>
 </html>

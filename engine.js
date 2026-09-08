@@ -38,6 +38,7 @@
     return '#v4/type/'+id;
   }
   function parseFragment(fragment){
+    if(fragment==='#quiz') return {view:'quiz'};
     if(fragment==='#library') return {view:'library'};
     if(fragment==='#method') return {view:'method'};
     // Old scores cannot be reinterpreted with the new model. Do not silently rename results.

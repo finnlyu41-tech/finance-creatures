@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+node_modules/
+qa-output/
+playwright-report/
+.DS_Store

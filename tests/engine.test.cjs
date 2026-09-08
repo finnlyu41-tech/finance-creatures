@@ -34,9 +34,18 @@ test('16 new single links round trip; legacy combinations are archived, never re
  for(const h of ['#v4/type/unknown','#v4/type/provision/with/goodwill','#v4/type/../../','<script>','#v4/type/provision?fake=1'])assert.deepEqual(e.parseFragment(h),{view:'home'});
  assert.throws(()=>e.resultFragment('unknown'));
 });
-test('every character has full comic content and honest image status',()=>{
- let illustrated=0,placeholder=0;for(const t of d.types){assert.ok(t.paragraphs.length>=3);assert.ok(t.roasts.length>=5);assert.equal(t.equipment.length,3);assert.ok(t.tagline&&t.nickname&&t.catchphrase&&t.nemesis&&t.habitat);if(t.image){illustrated++;assert.ok(fs.existsSync(path.resolve(__dirname,'..',t.image)));assert.equal(t.artStatus,'illustrated');}else{placeholder++;assert.equal(t.artStatus,'placeholder');assert.match(t.imageAlt,/待补/);}}
- assert.equal(illustrated,12);assert.equal(placeholder,4);
+test('all 16 accounts have unique local portraits, QR assets, complete text and source credits',()=>{
+ const images=new Set();let licensed=0;
+ for(const t of d.types){
+  assert.ok(t.paragraphs.length>=3);assert.ok(t.roasts.length>=5);assert.equal(t.equipment.length,3);
+  assert.ok(t.tagline&&t.nickname&&t.catchphrase&&t.nemesis&&t.habitat);
+  assert.ok(t.image&&t.qr);images.add(t.image);
+  assert.ok(fs.existsSync(path.resolve(__dirname,'..',t.image)),t.image);
+  assert.ok(fs.existsSync(path.resolve(__dirname,'..',t.qr)),t.qr);
+  assert.doesNotMatch(t.imageAlt,/待补|占位/);
+  if(t.artStatus==='licensed'){licensed++;assert.match(t.artCredit,/Pablo Stanley/);assert.match(t.artLicense,/creativecommons/);}else assert.equal(t.artStatus,'illustrated');
+ }
+ assert.equal(images.size,16);assert.equal(licensed,4);
 });
 test('retired multi-outcome UI and APIs no longer exist',()=>{
  const html=fs.readFileSync(path.resolve(__dirname,'../index.html'),'utf8');for(const id of ['tie-view','secondary-section','secondary-options','mix-view'])assert.ok(!html.includes('id="'+id+'"'));

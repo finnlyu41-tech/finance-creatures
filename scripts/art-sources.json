@@ -1,0 +1,32 @@
+{
+  "license": "CC BY 4.0 (as distributed in the source mirror)",
+  "creator": "Pablo Stanley",
+  "collection": "Humaaans",
+  "source": "https://github.com/Calinou/humaaans",
+  "entries": [
+    {
+      "id": "cash",
+      "sourceFile": "standing-1.svg",
+      "blobSha": "10106ce9bdd3d54b1f27905004e8ccb67476e46c",
+      "target": "assets/characters/cash.svg"
+    },
+    {
+      "id": "bank-deposits",
+      "sourceFile": "sitting-8.svg",
+      "blobSha": "e47d77e642f36a040b103330f344d9a04453ddb4",
+      "target": "assets/characters/bank-deposits.svg"
+    },
+    {
+      "id": "long-term-prepaid",
+      "sourceFile": "sitting-1.svg",
+      "blobSha": "36ff6933b802a0fee30f46bec3b2bc45b627e8ef",
+      "target": "assets/characters/long-term-prepaid.svg"
+    },
+    {
+      "id": "payroll",
+      "sourceFile": "standing-12.svg",
+      "blobSha": "9b0517913589be9eff00d76784835a8f4889df37",
+      "target": "assets/characters/payroll.svg"
+    }
+  ]
+}
