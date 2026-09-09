@@ -76,6 +76,7 @@ with sync_playwright() as p:
    assert page.locator('#question-count').inner_text()==f'{i+1:02} / 20'
    page.locator('.option').nth(0).click();assert page.locator('#answer-reaction').inner_text();page.click('#next')
   assert page.locator('#result-name').inner_text()=='长期待摊费用';assert page.locator('#dimension-pills>span').count()==4;assert not page.locator('#dimension-details').evaluate('(n)=>n.open')
+  source_link=page.locator('.account-note a');assert source_link.text_content()=='查看财政部科目说明';assert source_link.get_attribute('href').startswith('https://www.mof.gov.cn/')
   page.locator('#dimension-details summary').click();assert page.locator('.axis-track').count()==4
   page.reload(wait_until='networkidle');assert '唯一结果' in page.locator('#result-context').inner_text();assert page.locator('.axis-track').count()==4
   screenshot(page,'result-own-390');page.click('#quick-share');share=page.evaluate('window.__shares.at(-1)');assert share['files']==0 and '#v4/type/long-term-prepaid' in share['url'] and 'answers=' not in share['url'] and '长期待摊费用' in share['text']
@@ -93,7 +94,7 @@ with sync_playwright() as p:
   page.locator('[data-type="provision"]').click();assert '预览' in page.locator('#result-context').inner_text();assert page.locator('.axis-track').count()==0
   assert page.locator('#result-art img').get_attribute('alt')
   page.go_back(wait_until='networkidle');assert page.locator('#library-view').is_visible();page.click('#library-return');assert '唯一结果' in page.locator('#result-context').inner_text()
-  page.click('#result-method');page.click('#method-return');assert page.locator('.axis-track').count()==4
+  page.click('#result-method');method_links=page.locator('.method-explanation a');assert method_links.nth(0).get_attribute('href').startswith('https://www.mof.gov.cn/');assert '（官方）' in method_links.nth(0).inner_text();assert '厦大会计发展研究中心' in method_links.nth(1).inner_text();page.click('#method-return');assert page.locator('.axis-track').count()==4
   ok('search/category filters, real browser Back, preview labeling and own-result return')
   data=page.evaluate('FinanceContent.types.map(t=>({id:t.id,name:t.name,pattern:t.pattern,image:t.image}))');page.close()
   for art_id in ['cash','bank-deposits','long-term-prepaid','payroll']:

@@ -6,6 +6,13 @@ test('exactly 16 verified account names, unique IDs/numbers/patterns/codes',()=>
  assert.equal(d.types.length,16);for(const key of ['id','name','accountNo','pattern','code'])assert.equal(new Set(d.types.map(t=>t[key])).size,16);
  for(const t of d.types){assert.deepEqual([t.name,t.accountNo],expected[t.id]);assert.match(t.pattern,/^[01]{4}$/);assert.equal(t.code,d.axes.map((a,i)=>t.pattern[i]==='0'?a.left.code:a.right.code).join(''));assert.ok(t.definition&&t.category);}
 });
+test('accounting references prioritize the Ministry of Finance primary source',()=>{
+ const html=fs.readFileSync(path.resolve(__dirname,'../index.html'),'utf8');
+ assert.match(d.sourceUrl,/^https:\/\/www\.mof\.gov\.cn\//);
+ assert.match(d.sourceNote,/财会〔2006〕18号/);
+ assert.match(html,/查看财政部科目说明/);
+ assert.ok(html.indexOf('财政部关于会计科目资料的说明（官方）')<html.indexOf('科目表便捷查看（厦大会计发展研究中心）'));
+});
 test('all four axes have five equally weighted questions; every question has two choices each side',()=>{
  assert.equal(d.axes.length,4);assert.equal(d.questions.length,20);assert.equal(new Set(d.questions.map(q=>q.id)).size,20);
  for(const a of d.axes)assert.equal(d.questions.filter(q=>q.axis===a.id).length,5);
