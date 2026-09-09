@@ -56,6 +56,12 @@ with sync_playwright() as p:
   return dest
  try:
   page=page_at();assert page.locator('#home-view').is_visible();assert page.evaluate('FinanceContent.version')=='0.5.0'
+  def contrast(selector):
+   return page.locator(selector).evaluate("""el=>{const parse=v=>{const m=v.match(/\d+(?:\.\d+)?/g).slice(0,3).map(Number);return m.map(x=>{x/=255;return x<=.04045?x/12.92:Math.pow((x+.055)/1.055,2.4)});},lum=v=>{const [r,g,b]=parse(v);return .2126*r+.7152*g+.0722*b;},bg=node=>{for(let n=node;n;n=n.parentElement){const v=getComputedStyle(n).backgroundColor;if(v&&v!=='rgba(0, 0, 0, 0)'&&v!=='transparent')return v}return getComputedStyle(document.documentElement).backgroundColor;},a=lum(getComputedStyle(el).color),b=lum(bg(el)),hi=Math.max(a,b),lo=Math.min(a,b);return (hi+.05)/(lo+.05)}""")
+  for selector in ['.hero .eyebrow','.hero-meta span','.note-bottom','.home-bottom .mono','.tiny-seal','.site-footer>p','.site-footer summary','#clear-session','.footer-code']:
+   assert contrast(selector)>=4.5,(selector,contrast(selector))
+  brand=page.locator('#brand-home');assert brand.get_attribute('aria-label') is None
+  brand_a11y=brand.aria_snapshot();assert '财会生物' in brand_a11y and '鉴定中心' in brand_a11y
   screenshot(page,'home-390');ok('home loads v0.5 over '+('live HTTPS' if LIVE else 'virtual HTTPS' if VIRTUAL else 'local HTTP'))
   page.click('#start');assert page.locator('#next').is_disabled();page.keyboard.press('1');assert page.locator('input[value="0"]').is_checked();assert page.locator('#progress').get_attribute('aria-valuenow')=='1';page.click('#next')
   page.reload(wait_until='networkidle');assert page.locator('#question-count').inner_text()=='02 / 20';assert page.locator('#next').is_disabled()
