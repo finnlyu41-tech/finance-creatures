@@ -18,11 +18,11 @@ jobs:
       matrix:
         browser: [chromium, webkit]
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with:
           node-version: '22'
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
       - name: Install browser and test requirements
@@ -38,7 +38,7 @@ jobs:
           QA_OUTPUT: qa-output/${{ matrix.browser }}
           QA_NO_PREVIEW: '1'
         run: python tests/browser.test.py
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         if: always()
         with:
           name: local-${{ matrix.browser }}-${{ github.run_id }}
@@ -50,11 +50,11 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with:
           node-version: '22'
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
       - name: Install HTTPS smoke-test browsers
@@ -78,7 +78,7 @@ jobs:
           QA_OUTPUT: qa-output/live-webkit
           QA_SMOKE: '1'
         run: python tests/browser.test.py
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         if: always()
         with:
           name: live-release-${{ github.run_id }}
