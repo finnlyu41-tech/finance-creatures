@@ -75,7 +75,10 @@ with sync_playwright() as p:
   page.locator('#dimension-details summary').click();assert page.locator('.axis-track').count()==4
   page.reload(wait_until='networkidle');assert '唯一结果' in page.locator('#result-context').inner_text();assert page.locator('.axis-track').count()==4
   screenshot(page,'result-own-390');page.click('#quick-share');share=page.evaluate('window.__shares.at(-1)');assert share['files']==0 and '#v4/type/long-term-prepaid' in share['url'] and 'answers=' not in share['url'] and '长期待摊费用' in share['text']
-  export(page,'long-term-prepaid-card',scan=True);ok('one automatic outcome, real four-axis counts, own-result recovery, QR decode, native text share and PNG/native-share mock')
+  first_roast=page.locator('#result-roast').inner_text();assert ('鉴定员补刀：'+first_roast) in share['text']
+  page.click('#next-roast');second_roast=page.locator('#result-roast').inner_text();assert second_roast!=first_roast
+  page.click('#share-result');share=page.evaluate('window.__shares.at(-1)');assert ('鉴定员补刀：'+second_roast) in share['text'] and first_roast not in share['text']
+  export(page,'long-term-prepaid-card',scan=True);ok('one automatic outcome, current roast in native text share, real four-axis counts, own-result recovery, QR decode and PNG/native-share mock')
   page.click('#result-library');assert page.locator('.library-card').count()==16
   assert page.locator('.library-card img').count()==16
   assert page.locator('.library-card img').evaluate_all("imgs=>imgs.every(img=>img.getAttribute('alt')==='')")
