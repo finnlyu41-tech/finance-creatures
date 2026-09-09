@@ -20,7 +20,7 @@ else:
 MOCK="""window.__copies=[];window.__shares=[];
 Object.defineProperty(navigator,'clipboard',{configurable:true,value:{writeText:async(t)=>window.__copies.push(t)}});
 Object.defineProperty(navigator,'canShare',{configurable:true,value:()=>true});
-Object.defineProperty(navigator,'share',{configurable:true,value:async(d)=>window.__shares.push({files:d.files?.length||0})});"""
+Object.defineProperty(navigator,'share',{configurable:true,value:async(d)=>window.__shares.push({files:d.files?.length||0,title:d.title||'',text:d.text||'',url:d.url||''})});"""
 report=[];errors=[];requests=[]
 def ok(text):report.append(text);print('PASS',ENGINE,text,flush=True)
 with sync_playwright() as p:
@@ -68,8 +68,8 @@ with sync_playwright() as p:
   assert page.locator('#result-name').inner_text()=='长期待摊费用';assert page.locator('#dimension-pills>span').count()==4;assert not page.locator('#dimension-details').evaluate('(n)=>n.open')
   page.locator('#dimension-details summary').click();assert page.locator('.axis-track').count()==4
   page.reload(wait_until='networkidle');assert '唯一结果' in page.locator('#result-context').inner_text();assert page.locator('.axis-track').count()==4
-  screenshot(page,'result-own-390');page.click('#quick-share');copy=page.evaluate('window.__copies.at(-1)');assert '#v4/type/long-term-prepaid' in copy and 'answers=' not in copy
-  export(page,'long-term-prepaid-card',scan=True);ok('one automatic outcome, real four-axis counts, own-result recovery, QR decode, copy and PNG/native-share mock')
+  screenshot(page,'result-own-390');page.click('#quick-share');share=page.evaluate('window.__shares.at(-1)');assert share['files']==0 and '#v4/type/long-term-prepaid' in share['url'] and 'answers=' not in share['url'] and '长期待摊费用' in share['text']
+  export(page,'long-term-prepaid-card',scan=True);ok('one automatic outcome, real four-axis counts, own-result recovery, QR decode, native text share and PNG/native-share mock')
   page.click('#result-library');assert page.locator('.library-card').count()==16
   assert page.locator('.library-card img').count()==16
   assert page.locator('.library-card img').evaluate_all("imgs=>imgs.every(img=>img.getAttribute('alt')==='')")
@@ -94,9 +94,13 @@ with sync_playwright() as p:
     export(page,t['id']+'-card',scan=ENGINE=='chromium');page.close()
    ok('all 16 full answer journeys, 16 actual portraits, 16 PNG exports'+(' and 16 decoded QR destinations' if ENGINE=='chromium' else ''))
   page=page_at('#v4/type/provision');assert '朋友分享' in page.locator('#result-context').inner_text();assert page.locator('.axis-track').count()==0
-  page.evaluate("Object.defineProperty(navigator,'clipboard',{value:{writeText:async()=>{throw new Error('denied')}}})")
-  page.click('#quick-share');assert page.locator('#copy-fallback').is_visible()
-  ok('fresh shared links do not invent personal scores; clipboard refusal has a selectable fallback')
+  page.evaluate("window.__copies.length=0;Object.defineProperty(navigator,'share',{configurable:true,value:async()=>{throw new DOMException('cancelled','AbortError')}})")
+  page.click('#quick-share');assert page.evaluate('window.__copies.length')==0 and page.locator('#copy-fallback').is_hidden()
+  page.evaluate("Object.defineProperty(navigator,'share',{configurable:true,value:async()=>{throw new DOMException('blocked','NotAllowedError')}})")
+  page.click('#quick-share');copy=page.evaluate('window.__copies.at(-1)');assert '#v4/type/provision' in copy and 'answers=' not in copy
+  page.evaluate("Object.defineProperty(navigator,'clipboard',{configurable:true,value:{writeText:async()=>{throw new Error('denied')}}})")
+  page.click('#quick-share');assert page.locator('#copy-fallback').is_visible() and '#v4/type/provision' in page.locator('#copy-text').input_value()
+  ok('fresh shared links do not invent personal scores; share cancellation is silent and blocked share falls back to copy/manual text')
   for width in [320,360,390,430,768,1280,1440]:
    page.set_viewport_size({'width':width,'height':900})
    for fragment in ['', '#library','#method','#v4/type/payroll','#v4/type/long-term-prepaid']:
