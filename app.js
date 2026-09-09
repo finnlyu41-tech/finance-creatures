@@ -165,7 +165,11 @@
   async function share(){
     const t=byId.get(state.current);if(!t)return;
     const own=state.origin==='own',intro=own?`我测出来是「${t.name}」。`:`这张科目图鉴是「${t.name}」。`;
-    await copyResult(`${intro}\n${t.tagline}\n四维设定：${t.axisPhrase}（娱乐比喻，不是科目分类）。\n20 道题，只给 1 个结果。你在账上算什么东西？\n${shareUrl()}`);
+    const text=`${intro}\n${t.tagline}\n四维设定：${t.axisPhrase}（娱乐比喻，不是科目分类）。\n20 道题，只给 1 个结果。你在账上算什么东西？`,url=shareUrl();
+    if(window.isSecureContext&&navigator.share){
+      try{await navigator.share({title:`财会生物 · ${t.name}`,text,url});return;}catch(e){if(e&&e.name==='AbortError')return;}
+    }
+    await copyResult(`${text}\n${url}`);
   }
   function loadImage(src){
     if(!src)return Promise.resolve(null);
