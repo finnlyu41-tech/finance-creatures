@@ -1,0 +1,174 @@
+{
+  "schemaVersion": 1,
+  "style": "warm ivory, faceted human office characters",
+  "entries": [
+    {
+      "id": "cash",
+      "path": "assets/characters/cash.webp",
+      "sha256": "03ebc939e86171035aec54d3cdbd2467a543f6a9db88841cd7605b7503fb8b88",
+      "bytes": 27754,
+      "width": 768,
+      "height": 672,
+      "origin": "project-ai-assisted-2026-09-09",
+      "sourceCommit": "4d0507c17dab497bf25c6345ad9227f6d59a335c",
+      "sourcePngSha256": "fa2550e4490d38afbcd643e2deb27cccfd50f857fcc3f916d4ede7469121a5ad",
+      "processing": "proportional framing; paper-white normalization for multiply compositing; WebP quality 90"
+    },
+    {
+      "id": "construction",
+      "path": "assets/characters/construction.webp",
+      "sha256": "e749aad6d183feec4ac19e28767008de3b12144d66b4c0f81bb3a75aab704501",
+      "bytes": 18280,
+      "width": 384,
+      "height": 336,
+      "origin": "project-ai-assisted-existing",
+      "sourceCommit": "4d0507c17dab497bf25c6345ad9227f6d59a335c"
+    },
+    {
+      "id": "bank-deposits",
+      "path": "assets/characters/bank-deposits.webp",
+      "sha256": "0901ff65f16a0f0173e9f1f42cbf03d5f8592b126fc23264d3ef2bbf64d91c6e",
+      "bytes": 24922,
+      "width": 768,
+      "height": 672,
+      "origin": "project-ai-assisted-2026-09-09",
+      "sourceCommit": "4d0507c17dab497bf25c6345ad9227f6d59a335c",
+      "sourcePngSha256": "258cb05aa1a0d5012888800556d8d5410cb66732f027720fc3f6ac71ae2c03ea",
+      "processing": "proportional framing; paper-white normalization for multiply compositing; WebP quality 90"
+    },
+    {
+      "id": "fixed-asset",
+      "path": "assets/characters/fixed-asset.webp",
+      "sha256": "7d9300882214f6689d346e7382ef9d348869dc6dff0ce7a047a93618df90c688",
+      "bytes": 15282,
+      "width": 384,
+      "height": 332,
+      "origin": "project-ai-assisted-existing",
+      "sourceCommit": "4d0507c17dab497bf25c6345ad9227f6d59a335c"
+    },
+    {
+      "id": "receivables",
+      "path": "assets/characters/receivables.webp",
+      "sha256": "a9abbbe72b41c4c3bbf613f2ab9fa5aa9c5d18c94b73ea6991ed57de504486ad",
+      "bytes": 12246,
+      "width": 384,
+      "height": 332,
+      "origin": "project-ai-assisted-existing",
+      "sourceCommit": "4d0507c17dab497bf25c6345ad9227f6d59a335c"
+    },
+    {
+      "id": "long-term-prepaid",
+      "path": "assets/characters/long-term-prepaid.webp",
+      "sha256": "2e00f4052ce4ae79e9d558bf4587532f68df7ed41eb81f2139397c9168a417f2",
+      "bytes": 31706,
+      "width": 768,
+      "height": 672,
+      "origin": "project-ai-assisted-2026-09-09",
+      "sourceCommit": "4d0507c17dab497bf25c6345ad9227f6d59a335c",
+      "sourcePngSha256": "f1318d87b48a70a6db57dab7ccf85f922104c407946f499a1ed52adc021055d7",
+      "processing": "proportional framing; paper-white normalization for multiply compositing; WebP quality 90"
+    },
+    {
+      "id": "allowance",
+      "path": "assets/characters/skepticism.webp",
+      "sha256": "21a4e795edcde697849141a0c40f6c6d1e673bf4768a1a6b6fdbd8005e82e29a",
+      "bytes": 11096,
+      "width": 384,
+      "height": 352,
+      "origin": "project-ai-assisted-existing",
+      "sourceCommit": "4d0507c17dab497bf25c6345ad9227f6d59a335c"
+    },
+    {
+      "id": "provision",
+      "path": "assets/characters/provision.webp",
+      "sha256": "df5938f9979c144f2cdd7a11d8c24bf52d215e43c597aef0c463c02052cd72a4",
+      "bytes": 12690,
+      "width": 384,
+      "height": 336,
+      "origin": "project-ai-assisted-existing",
+      "sourceCommit": "4d0507c17dab497bf25c6345ad9227f6d59a335c"
+    },
+    {
+      "id": "revenue",
+      "path": "assets/characters/going-concern.webp",
+      "sha256": "31de92fa2db055100b3603932e7fbeeaa70d4d620713e7193fb677340b186326",
+      "bytes": 13740,
+      "width": 384,
+      "height": 352,
+      "origin": "project-ai-assisted-existing",
+      "sourceCommit": "4d0507c17dab497bf25c6345ad9227f6d59a335c"
+    },
+    {
+      "id": "goodwill",
+      "path": "assets/characters/goodwill.webp",
+      "sha256": "a5191b8ff01fd9535a52fa8554bc438495ee715cbdd2c4a02079861aac3ea37e",
+      "bytes": 12496,
+      "width": 384,
+      "height": 332,
+      "origin": "project-ai-assisted-existing",
+      "sourceCommit": "4d0507c17dab497bf25c6345ad9227f6d59a335c"
+    },
+    {
+      "id": "windfall",
+      "path": "assets/characters/windfall.webp",
+      "sha256": "fab2476e0d6d34879bff1b0315c57d8dfcaa04910057a60b211161b83993ea5c",
+      "bytes": 12076,
+      "width": 384,
+      "height": 332,
+      "origin": "project-ai-assisted-existing",
+      "sourceCommit": "4d0507c17dab497bf25c6345ad9227f6d59a335c"
+    },
+    {
+      "id": "rd",
+      "path": "assets/characters/substance.webp",
+      "sha256": "1d9823de8c5ba9f88a6b2901ed7ee551abccc88f79b5f1cb63488d7e21f60888",
+      "bytes": 13118,
+      "width": 384,
+      "height": 352,
+      "origin": "project-ai-assisted-existing",
+      "sourceCommit": "4d0507c17dab497bf25c6345ad9227f6d59a335c"
+    },
+    {
+      "id": "other-receivables",
+      "path": "assets/characters/other-receivables.webp",
+      "sha256": "b4a98c17c8c7c0e444f5959ca0c6a9343473cdd20ac78ebf6dc55c3d7647eccd",
+      "bytes": 15654,
+      "width": 384,
+      "height": 336,
+      "origin": "project-ai-assisted-existing",
+      "sourceCommit": "4d0507c17dab497bf25c6345ad9227f6d59a335c"
+    },
+    {
+      "id": "payroll",
+      "path": "assets/characters/payroll.webp",
+      "sha256": "7e0c692c87c0e82e8d57cf72089ce58bd23a128cbadd69f85abf93c61ec0141e",
+      "bytes": 25106,
+      "width": 768,
+      "height": 672,
+      "origin": "project-ai-assisted-2026-09-09",
+      "sourceCommit": "4d0507c17dab497bf25c6345ad9227f6d59a335c",
+      "sourcePngSha256": "27d85dcfdd663a05929455b8450bec5bbd94e91784a8a6a7bc46354188ba1da3",
+      "processing": "proportional framing; paper-white normalization for multiply compositing; WebP quality 90"
+    },
+    {
+      "id": "management-expense",
+      "path": "assets/characters/materiality.webp",
+      "sha256": "b2ebf18f8fa1f07464e725c884fc8ad2d3a6e71d361ad8e4c263033e2273184f",
+      "bytes": 11104,
+      "width": 384,
+      "height": 352,
+      "origin": "project-ai-assisted-existing",
+      "sourceCommit": "4d0507c17dab497bf25c6345ad9227f6d59a335c"
+    },
+    {
+      "id": "accumulated-depreciation",
+      "path": "assets/characters/depreciated.webp",
+      "sha256": "d4e13f191d4e93c4e235c2dba084c5b304711eb2bcf96bdcb15a0509fa89bb11",
+      "bytes": 11998,
+      "width": 384,
+      "height": 336,
+      "origin": "project-ai-assisted-existing",
+      "sourceCommit": "4d0507c17dab497bf25c6345ad9227f6d59a335c"
+    }
+  ]
+}

@@ -55,7 +55,7 @@ with sync_playwright() as p:
   page.click('#close-save');assert page.locator('#save-preview').get_attribute('src') is None
   return dest
  try:
-  page=page_at();assert page.locator('#home-view').is_visible();assert page.evaluate('FinanceContent.version')=='0.5.0'
+  page=page_at();assert page.locator('#home-view').is_visible();assert page.evaluate('FinanceContent.version')=='0.5.1'
   def contrast(selector):
    return page.locator(selector).evaluate("""el=>{const parse=v=>{const m=v.match(/\d+(?:\.\d+)?/g).slice(0,3).map(Number);return m.map(x=>{x/=255;return x<=.04045?x/12.92:Math.pow((x+.055)/1.055,2.4)});},lum=v=>{const [r,g,b]=parse(v);return .2126*r+.7152*g+.0722*b;},bg=node=>{for(let n=node;n;n=n.parentElement){const v=getComputedStyle(n).backgroundColor;if(v&&v!=='rgba(0, 0, 0, 0)'&&v!=='transparent')return v}return getComputedStyle(document.documentElement).backgroundColor;},a=lum(getComputedStyle(el).color),b=lum(bg(el)),hi=Math.max(a,b),lo=Math.min(a,b);return (hi+.05)/(lo+.05)}""")
   for selector in ['.hero .eyebrow','.hero-meta span','.note-bottom','.home-bottom .mono','.tiny-seal','.site-footer>p','.site-footer summary','#clear-session','.footer-code']:
@@ -92,6 +92,17 @@ with sync_playwright() as p:
   page.click('#result-method');page.click('#method-return');assert page.locator('.axis-track').count()==4
   ok('search/category filters, real browser Back, preview labeling and own-result return')
   data=page.evaluate('FinanceContent.types.map(t=>({id:t.id,name:t.name,pattern:t.pattern,image:t.image}))');page.close()
+  for art_id in ['cash','bank-deposits','long-term-prepaid','payroll']:
+   art_page=page_at('#v4/type/'+art_id)
+   art_page.wait_for_function('document.querySelector("#result-art img").naturalWidth===768')
+   assert art_page.locator('#result-art img').get_attribute('src')=='./assets/characters/'+art_id+'.webp'
+   assert art_page.locator('#result-art img').get_attribute('alt')
+   assert art_page.locator('#art-credit').is_hidden()
+   assert art_page.locator('.licensed-portrait').count()==0
+   screenshot(art_page,'unified-'+art_id+'-390')
+   export(art_page,'unified-'+art_id+'-card',scan=True)
+   art_page.close()
+  ok('four replacement human portraits, accurate alt/attribution, four PNG cards and QR destinations')
   if not SMOKE:
    for t in data:
     page=page_at();page.click('#start')

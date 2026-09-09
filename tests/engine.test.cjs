@@ -45,7 +45,7 @@ test('all 16 accounts have unique local portraits, QR assets, complete text and 
   assert.doesNotMatch(t.imageAlt,/待补|占位/);
   if(t.artStatus==='licensed'){licensed++;assert.match(t.artCredit,/Pablo Stanley/);assert.match(t.artLicense,/creativecommons/);}else assert.equal(t.artStatus,'illustrated');
  }
- assert.equal(images.size,16);assert.equal(licensed,4);
+ assert.equal(images.size,16);assert.equal(licensed,0);
 });
 test('retired multi-outcome UI and APIs no longer exist',()=>{
  const html=fs.readFileSync(path.resolve(__dirname,'../index.html'),'utf8');for(const id of ['tie-view','secondary-section','secondary-options','mix-view'])assert.ok(!html.includes('id="'+id+'"'));

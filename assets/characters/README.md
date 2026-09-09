@@ -1,9 +1,11 @@
 # 人物素材
 
-12 张 `.webp` 为本项目 v0.2 使用图像工具生成的原创辅助素材，后来映射到 v0.4 会计科目角色。
+当前 16 张人物图均使用 WebP：12 张已有 AI 辅助人物图保持原文件；`cash.webp`、`bank-deposits.webp`、`long-term-prepaid.webp`、`payroll.webp` 为 2026-09-09 新制作的 AI 辅助人物图。
 
-4 张 `.svg` 为 Pablo Stanley 的 Humaaans 授权现成人物素材，保留原文件。采用镜像随附的 CC BY 4.0 归属要求，并在网页与导出卡片标注来源。不是本项目新生成的人物，也没有伪称具备会计道具。
+画风规范：暖米白底、柔和几何块面阴影、人类职场角色、相近人物比例与落地阴影；道具和表情表达不同财会笑点。新图统一为 768×672（8:7）；旧图保持原始 384 像素宽度及 332、336 或 352 像素高度；不拉伸人物，不在素材里烘焙标题、科目名或水印。
 
-详细源文件、不可变 Git blob SHA、许可证及网站见 ../../ART-CREDITS.md 和 ../../scripts/art-sources.json。
+`cash.svg`、`bank-deposits.svg`、`long-term-prepaid.svg`、`payroll.svg` 是旧版使用的 Pablo Stanley / Humaaans 授权源文件。保留原内容和 CC BY 4.0 归属记录，但不再由当前图鉴、结果页或分享卡引用。新 WebP 不沿用旧素材作者署名。
 
-网页只加载本地版本，不热链第三方 CDN。人物图加载失败时文字结果仍有效，页面明确提示。
+当前图片的哈希、实际尺寸及来源见 ../../scripts/portrait-manifest.json；历史授权来源见 ../../scripts/art-sources.json 和 ../../ART-CREDITS.md。构建会核验二者，不调用图像生成服务。
+
+网页只加载本站资源。人物图加载失败时文字结果仍有效，页面明确提示。图鉴内装饰性图片保留空 alt，独立结果人物图保留准确描述。
