@@ -27,6 +27,8 @@ def wait_image_loaded(locator, expected_width=None):
  expect(locator).to_have_js_property('complete',True)
  if expected_width is None:expect(locator).not_to_have_js_property('naturalWidth',0)
  else:expect(locator).to_have_js_property('naturalWidth',expected_width)
+def expect_comfortable_target(locator):
+ box=locator.bounding_box();assert box and box['width']>=44 and box['height']>=44,box
 with sync_playwright() as p:
  browser_type=getattr(p,ENGINE);launch={'headless':True}
  if ENGINE=='chromium':
@@ -46,7 +48,7 @@ with sync_playwright() as p:
   page.goto(BASE+fragment,wait_until='networkidle');return page
  def screenshot(page,name):page.screenshot(path=str(OUT/(name+'-'+ENGINE+'.png')),full_page=True)
  def export(page,name,scan=False):
-  page.click('#quick-save');page.wait_for_selector('#save-dialog[open]');wait_image_loaded(page.locator('#save-preview'),900)
+  page.click('#quick-save');page.wait_for_selector('#save-dialog[open]');expect_comfortable_target(page.locator('#close-save'));wait_image_loaded(page.locator('#save-preview'),900)
   encoded=page.evaluate("""async()=>{const b=await(await fetch(document.getElementById('save-preview').src)).blob();return await new Promise(r=>{const f=new FileReader();f.onload=()=>r(f.result.split(',')[1]);f.readAsDataURL(b);});}""")
   raw=base64.b64decode(encoded);dest=OUT/(name+'-'+ENGINE+'.png');dest.write_bytes(raw)
   if scan:
@@ -81,6 +83,7 @@ with sync_playwright() as p:
   page.reload(wait_until='networkidle');assert '唯一结果' in page.locator('#result-context').inner_text();assert page.locator('.axis-track').count()==4
   screenshot(page,'result-own-390');page.click('#quick-share');share=page.evaluate('window.__shares.at(-1)');assert share['files']==0 and '#v4/type/long-term-prepaid' in share['url'] and 'answers=' not in share['url'] and '长期待摊费用' in share['text']
   first_roast=page.locator('#result-roast').inner_text();assert ('鉴定员补刀：'+first_roast) in share['text']
+  for selector in ['#next-roast','#restart','#result-library','#result-method']:expect_comfortable_target(page.locator(selector))
   page.click('#next-roast');second_roast=page.locator('#result-roast').inner_text();assert second_roast!=first_roast
   page.click('#share-result');share=page.evaluate('window.__shares.at(-1)');assert ('鉴定员补刀：'+second_roast) in share['text'] and first_roast not in share['text']
   export(page,'long-term-prepaid-card',scan=True);ok('one automatic outcome, current roast in native text share, real four-axis counts, own-result recovery, QR decode and PNG/native-share mock')
