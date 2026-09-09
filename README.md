@@ -2,13 +2,13 @@
 
 > 查查你在账上算什么东西。
 
-**v0.5.0** · 16 个会计科目 · 4 条娱乐维度 · 20 道题 · 1 个确定结果
+**v0.5.1** · 16 个会计科目 · 4 条娱乐维度 · 20 道题 · 1 个确定结果
 
 在线体验：https://finnlyu41-tech.github.io/finance-creatures/
 
 ## 本版更新
 
-- 四个缺图科目已经配置 Humaaans 授权现成人物插画；不是生成失败后的假占位，也不是本项目新原创。原有 12 张 AI 辅助人物图保留。作者、许可、原文件和哈希见 [ART-CREDITS.md](ART-CREDITS.md)。四张的画风与旧图不完全一致。
+- 16 型现在均采用暖米白背景、块面阴影的财会人物画风：保留原有 12 张，库存现金、银行存款、长期待摊费用、应付职工薪酬换为新制作的 AI 辅助人物图。新图使用 768×672 WebP，人物、道具与落地阴影完整；四张旧 Humaaans SVG 和署名记录保留归档，不再用于当前人物卡。当前图片哈希及来源见 [ART-CREDITS.md](ART-CREDITS.md) 和 `scripts/portrait-manifest.json`。
 - 答题进度仅保存在当前标签页的 sessionStorage，刷新可恢复；最长 24 小时。可以主动清除。存储被禁用时仍能答题，明确提示不保留。无后端、统计或答案上传。
 - 结果页先展示人物、笑点、四维摘要与分享按钮，详细计票默认折叠。
 - 科目图鉴支持关键词、科目编号、四字母及真实科目类别筛选。
@@ -50,7 +50,7 @@ QA_BROWSER=chromium QA_OUTPUT=/tmp/finance-qa/chromium python3 tests/browser.tes
 QA_BROWSER=webkit QA_OUTPUT=/tmp/finance-qa/webkit python3 tests/browser.test.py
 ```
 
-`prepare-assets.py` 只在缺少四张授权 SVG 时从固定 Git blob 获取并验证 SHA，原文件保持不变；其余时候校验本地文件并生成只含公开类型链接的 QR。不会调用任何图像生成接口。
+`prepare-assets.py` 核验全部 16 张当前 WebP 的 SHA-256、实际解码、原始尺寸及来源清单，并要求四张替换图统一为 768×672（8:7），再生成只含公开类型链接的 QR。四张旧授权 SVG 仍按固定 Git blob 校验，缺失时只恢复原授权源文件，不替代新人物图。构建和访客运行都不会调用图像生成接口。原始答案、计分版本与旧分享链接保持不变。
 
 测试覆盖全部 16 型的完整答题、插画显示、PNG 导出、二维码解码、刷新恢复、浏览器后退、筛选、旧链接、七种屏幕宽度、禁用存储、损坏缓存、剪贴板拒绝。网页部署后还运行线上 HTTPS 冒烟检查。
 
@@ -62,10 +62,11 @@ QA_BROWSER=webkit QA_OUTPUT=/tmp/finance-qa/webkit python3 tests/browser.test.py
 - `engine.js`：可测试的确定性计分和安全路由。
 - `session.js`：临时进度的验证、版本与期限。
 - `app.js`：交互、恢复、分享与 Canvas。
-- `scripts/art-sources.json` / `ART-CREDITS.md`：授权图片来源与归属。
+- `scripts/portrait-manifest.json`：16 张当前人物图的哈希、尺寸与制作来源。
+- `scripts/art-sources.json` / `ART-CREDITS.md`：旧授权源文件与当前图片的准确归属。
 - `scripts/prepare-assets.py`：锁定资源、验证与 QR。
 - `tests/`：单元与浏览器回归测试。
 
 ## 相关说明
 
-无 MBTI、16Personalities 或 SBTI 官方关联。新增四张 Humaaans 为 Pablo Stanley 创作的授权素材，作者未为本项目背书。正式会计科目参考及娱乐与专业边界保留在页面“关于／隐私／版本”中。
+无 MBTI、16Personalities 或 SBTI 官方关联。旧版使用的四张 Humaaans 为 Pablo Stanley 创作的授权素材，原文件与署名保留；当前四张替换图不是其作品，作者未为本项目背书。正式会计科目参考及娱乐与专业边界保留在页面“关于／隐私／版本”中。

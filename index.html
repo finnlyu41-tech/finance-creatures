@@ -19,11 +19,11 @@
   <meta name="twitter:card" content="summary_large_image">
   <title>财会生物鉴定中心 · 查查你在账上算什么东西</title>
   <link rel="icon" type="image/svg+xml" href="./favicon.svg">
-  <link rel="stylesheet" href="./style.css?v=0.5.0">
-  <script defer src="./content.js?v=0.5.0"></script>
-  <script defer src="./engine.js?v=0.5.0"></script>
-  <script defer src="./session.js?v=0.5.0"></script>
-  <script defer src="./app.js?v=0.5.0"></script>
+  <link rel="stylesheet" href="./style.css?v=0.5.1">
+  <script defer src="./content.js?v=0.5.1"></script>
+  <script defer src="./engine.js?v=0.5.1"></script>
+  <script defer src="./session.js?v=0.5.1"></script>
+  <script defer src="./app.js?v=0.5.1"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">跳到正文</a>
@@ -102,7 +102,7 @@
     </section>
     <noscript><p class="notice">这个小测试需要 JavaScript 才能运行。请在浏览器设置中启用 JavaScript 后重新打开。</p></noscript>
   </main>
-  <footer class="site-footer"><p>借会计科目开个玩笑，别拿去做绩效。</p><details><summary>关于 / 隐私 / 版本</summary><p>原创娱乐作品，不是 MBTI、16Personalities 或 SBTI 官方产品，不是心理诊断、能力评价或会计指引。16 个角色均有插画。12 张为本项目 AI 辅助原创；库存现金、银行存款、长期待摊费用、应付职工薪酬使用 Pablo Stanley 的 Humaaans 现成人物插画，按来源镜像的 CC BY 4.0 署名使用，并非本项目原创。<a href="./ART-CREDITS.md" target="_blank" rel="noopener noreferrer">素材来源与许可</a>。</p><p>答案仅在浏览器本地计分，并用 sessionStorage 保留当前标签页的进度，刷新可继续；超过 24 小时或内容版本变化后失效。可随时用下方按钮清空。浏览器禁用存储时会提示，并退回仅当前页面内存。不登录、无广告、无追踪统计、无远程字体。分享链接只含版本与单个科目标识，不含原始答案；接收者不会看到假造的个人得分。GitHub Pages 可能保留常规访问日志。</p><p>试营业 v0.5.0 · 16 个会计科目，20 道题，4 条玩法维度，唯一结果。每维 5 票，不平票；同版同答案得到同一结果。角色与四维组合是编辑式娱乐设定，维度不是科目分类或真实借贷方向。</p></details><button id="clear-session" class="text-button">清空本标签页答题记录</button><span class="footer-code mono">FINN / LIFE IS NOT A BALANCE SHEET</span></footer>
+  <footer class="site-footer"><p>借会计科目开个玩笑，别拿去做绩效。</p><details><summary>关于 / 隐私 / 版本</summary><p>原创娱乐作品，不是 MBTI、16Personalities 或 SBTI 官方产品，不是心理诊断、能力评价或会计指引。16 个角色均采用本项目 AI 辅助制作的财会人物插画，统一暖米白背景与块面阴影画风。库存现金、银行存款、长期待摊费用、应付职工薪酬已替换为新人物图；此前使用的 Humaaans 素材及署名记录保留归档，不再用于当前人物卡。<a href="./ART-CREDITS.md" target="_blank" rel="noopener noreferrer">素材来源与许可</a>。</p><p>答案仅在浏览器本地计分，并用 sessionStorage 保留当前标签页的进度，刷新可继续；超过 24 小时或内容版本变化后失效。可随时用下方按钮清空。浏览器禁用存储时会提示，并退回仅当前页面内存。不登录、无广告、无追踪统计、无远程字体。分享链接只含版本与单个科目标识，不含原始答案；接收者不会看到假造的个人得分。GitHub Pages 可能保留常规访问日志。</p><p>试营业 v0.5.1 · 16 个会计科目，20 道题，4 条玩法维度，唯一结果。每维 5 票，不平票；同版同答案得到同一结果。角色与四维组合是编辑式娱乐设定，维度不是科目分类或真实借贷方向。</p></details><button id="clear-session" class="text-button">清空本标签页答题记录</button><span class="footer-code mono">FINN / LIFE IS NOT A BALANCE SHEET</span></footer>
   <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
   <dialog id="save-dialog" aria-labelledby="save-heading"><div class="dialog-top"><h3 id="save-heading">带走这张科目卡</h3><button id="close-save" class="icon-button" aria-label="关闭保存图片窗口">×</button></div><p id="save-message" class="micro">手机可长按图片保存；也可点击下方下载。</p><img id="save-preview" alt="财会生物人物卡"><div class="dialog-share-actions"><button id="share-image" class="button button-primary" hidden>分享这张图 ↗</button><a id="download-card" class="button button-quiet" download>下载图片 ↓</a></div><p class="micro align-center">卡片在本页合成，不上传答案。</p></dialog>
 </body>

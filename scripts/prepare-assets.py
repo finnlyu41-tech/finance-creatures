@@ -1,10 +1,11 @@
-"""Fetch four existing, licensed SVGs by immutable blob; prepare type-only QR codes.
+"""Validate current portraits and retained licensed SVG sources; prepare type-only QR codes.
 No image-generation service is used. All runtime assets are hosted with the site.
 """
 from pathlib import Path
 import base64, hashlib, json, re, subprocess, time, urllib.request
 import xml.etree.ElementTree as ET
 import qrcode
+import cv2
 from qrcode.image.svg import SvgPathImage
 ROOT=Path(__file__).resolve().parents[1]
 manifest=json.loads((ROOT/'scripts/art-sources.json').read_text())
@@ -34,8 +35,32 @@ for item in manifest['entries']:
             assert not k.lower().startswith('on')
             if k.split('}')[-1]=='href':assert v.startswith('#')
     path.write_bytes(raw)
-    print('Verified existing artwork:',item['id'],item['blobSha'])
+    print('Verified archived licensed source:',item['id'],item['blobSha'])
 data=json.loads(subprocess.check_output(['node','-e',"process.stdout.write(JSON.stringify(require('./content.js')))"],cwd=ROOT,text=True))
+portraits=json.loads((ROOT/'scripts/portrait-manifest.json').read_text())
+assert portraits['schemaVersion']==1
+assert len(portraits['entries'])==16
+by_id={item['id']:item for item in portraits['entries']}
+assert len(by_id)==16 and set(by_id)=={t['id'] for t in data['types']}
+for t in data['types']:
+    item=by_id[t['id']]
+    assert item['path']==t['image'].removeprefix('./')
+    assert item['path'].startswith('assets/characters/') and item['path'].endswith('.webp')
+    path=(ROOT/item['path']).resolve()
+    assert path.is_relative_to(ROOT.resolve())
+    raw=path.read_bytes()
+    assert hashlib.sha256(raw).hexdigest()==item['sha256'], 'Portrait hash mismatch: '+t['id']
+    assert len(raw)==item['bytes'] and len(raw)<=100000, 'Portrait size mismatch: '+t['id']
+    assert raw[:4]==b'RIFF' and raw[8:12]==b'WEBP', 'Invalid WebP: '+t['id']
+    image=cv2.imread(str(path));assert image is not None, 'Undecodable portrait: '+t['id']
+    assert (image.shape[1],image.shape[0])==(item['width'],item['height'])
+    if item['origin']=='project-ai-assisted-2026-09-09':
+        assert (item['width'],item['height'])==(768,672), 'Unexpected replacement dimensions: '+t['id']
+    else:
+        assert item['width']==384 and item['height'] in (332,336,352), 'Unexpected preserved original dimensions: '+t['id']
+    assert t['artStatus']=='illustrated' and t['imageAlt']
+    assert item['origin'] in ('project-ai-assisted-existing','project-ai-assisted-2026-09-09')
+print('Verified 16 active WebP portraits: exact hashes, sizes, dimensions and source records.')
 qrdir=ROOT/'assets/qr';qrdir.mkdir(exist_ok=True)
 for t in data['types']:
     assert re.fullmatch(r'[a-z]+(?:-[a-z]+)*',t['id'])
