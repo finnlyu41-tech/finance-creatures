@@ -72,6 +72,8 @@ with sync_playwright() as p:
   page.goto(BASE+'#library',wait_until='networkidle');card=page.locator('.library-card').first;card.hover();assert card.evaluate("el=>getComputedStyle(el).transform")=='none';page.goto(BASE,wait_until='networkidle')
   brand=page.locator('#brand-home');assert brand.get_attribute('aria-label') is None
   brand_a11y=brand.aria_snapshot();assert '财会生物' in brand_a11y and '鉴定中心' in brand_a11y
+  assert page.locator('.hero-cast').get_attribute('role')=='group'
+  assert page.locator('#dimension-pills').get_attribute('role')=='group'
   screenshot(page,'home-390');ok('home loads v0.5 over '+('live HTTPS' if LIVE else 'virtual HTTPS' if VIRTUAL else 'local HTTP'))
   page.click('#start');assert page.locator('#next').is_disabled();page.keyboard.press('1');assert page.locator('input[value="0"]').is_checked();assert page.locator('#progress').get_attribute('aria-valuenow')=='1';page.click('#next')
   page.reload(wait_until='networkidle');assert page.locator('#question-count').inner_text()=='02 / 20';assert page.locator('#next').is_disabled()

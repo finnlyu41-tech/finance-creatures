@@ -42,7 +42,7 @@
           <div class="hero-actions"><button id="start" class="button button-primary">把我入账 <span aria-hidden="true">→</span></button><button id="home-library" class="text-button">先看看，都有谁 →</button></div>
           <p class="micro hero-meta">20 道题 · 4 个维度 · 1 个结果<br><span>不登录，不考证。只查你心里那句。</span></p>
         </div>
-        <div class="hero-cast" aria-label="三位财会角色预告">
+        <div class="hero-cast" role="group" aria-label="三位财会角色预告">
           <div class="cast-background" aria-hidden="true"></div>
           <article class="cast-card cast-left"><span class="cast-label">累计折旧</span><img src="./assets/characters/depreciated.webp" width="384" height="341" alt="抱着咖啡靠在椅子里的低电量角色"><p>功能正常，语气报废。</p></article>
           <article class="cast-card cast-right"><span class="cast-label">营业外收入</span><img src="./assets/characters/windfall.webp" width="384" height="341" alt="拿着奶茶和点心蹦起来的快乐角色"><p>大饼不吃，蛋挞吃。</p></article>
@@ -75,7 +75,7 @@
           <div class="portrait-stage"><div id="result-art"></div><span id="result-nickname" class="portrait-label"></span></div>
           <div class="result-identity"><p id="type-label" class="type-label"></p><h2 id="result-name" tabindex="-1"></h2><p id="result-tagline" class="result-tagline"></p><div id="result-equipment" class="equipment"></div></div>
         </div>
-        <div class="quick-result-actions"><button id="quick-save" class="button button-primary">带走这张人物卡 ↓</button><button id="quick-share" class="button button-quiet">分享我的科目 ↗</button></div><p id="art-credit" class="art-credit" hidden></p><div id="dimension-pills" class="dimension-pills" aria-label="四个玩法维度"></div><details id="dimension-details" class="dimension-panel"><summary class="dimension-heading"><strong id="dimension-heading">四维账本</strong><span id="profile-code" class="mono"></span><span class="details-arrow" aria-hidden="true">＋</span></summary><p id="dimension-note" class="micro"></p><div id="dimension-rows"></div></details><div class="result-story"><div id="result-body" class="result-body"></div><dl id="result-facts" class="result-facts"></dl></div>
+        <div class="quick-result-actions"><button id="quick-save" class="button button-primary">带走这张人物卡 ↓</button><button id="quick-share" class="button button-quiet">分享我的科目 ↗</button></div><p id="art-credit" class="art-credit" hidden></p><div id="dimension-pills" class="dimension-pills" role="group" aria-label="四个玩法维度"></div><details id="dimension-details" class="dimension-panel"><summary class="dimension-heading"><strong id="dimension-heading">四维账本</strong><span id="profile-code" class="mono"></span><span class="details-arrow" aria-hidden="true">＋</span></summary><p id="dimension-note" class="micro"></p><div id="dimension-rows"></div></details><div class="result-story"><div id="result-body" class="result-body"></div><dl id="result-facts" class="result-facts"></dl></div>
         <details class="account-note"><summary>这个科目，真的叫什么？</summary><p id="account-definition"></p><p class="micro">正式类别与玩法维度是两回事。<a href="https://www.mof.gov.cn/bd/mhwzzxly/hjs/202302/t20230224_3868179.htm" target="_blank" rel="noopener noreferrer">查看财政部科目说明</a></p></details><div class="result-footer"><span>FINN / 不给人生建议，先笑一下</span><span>纯属娱乐</span></div>
       </article>
       <div class="roast-box"><span class="eyebrow">鉴定员又补了一句</span><p id="result-roast" aria-live="polite"></p><button id="next-roast" class="text-button">再补一刀 ↻</button></div>
