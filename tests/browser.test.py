@@ -66,6 +66,10 @@ with sync_playwright() as p:
    return page.locator(selector).evaluate("""el=>{const parse=v=>{const m=v.match(/\d+(?:\.\d+)?/g).slice(0,3).map(Number);return m.map(x=>{x/=255;return x<=.04045?x/12.92:Math.pow((x+.055)/1.055,2.4)});},lum=v=>{const [r,g,b]=parse(v);return .2126*r+.7152*g+.0722*b;},bg=node=>{for(let n=node;n;n=n.parentElement){const v=getComputedStyle(n).backgroundColor;if(v&&v!=='rgba(0, 0, 0, 0)'&&v!=='transparent')return v}return getComputedStyle(document.documentElement).backgroundColor;},a=lum(getComputedStyle(el).color),b=lum(bg(el)),hi=Math.max(a,b),lo=Math.min(a,b);return (hi+.05)/(lo+.05)}""")
   for selector in ['.hero .eyebrow','.hero-meta span','.note-bottom','.home-bottom .mono','.tiny-seal','.site-footer>p','.site-footer summary','#clear-session','.footer-code']:
    assert contrast(selector)>=4.5,(selector,contrast(selector))
+  assert page.evaluate("getComputedStyle(document.documentElement).scrollBehavior")=='auto'
+  assert page.evaluate("getComputedStyle(document.querySelector('.view')).animationName")=='none'
+  primary=page.locator('.button-primary').first;primary.hover();assert primary.evaluate("el=>getComputedStyle(el).transform")=='none'
+  page.goto(BASE+'#library',wait_until='networkidle');card=page.locator('.library-card').first;card.hover();assert card.evaluate("el=>getComputedStyle(el).transform")=='none';page.goto(BASE,wait_until='networkidle')
   brand=page.locator('#brand-home');assert brand.get_attribute('aria-label') is None
   brand_a11y=brand.aria_snapshot();assert '财会生物' in brand_a11y and '鉴定中心' in brand_a11y
   screenshot(page,'home-390');ok('home loads v0.5 over '+('live HTTPS' if LIVE else 'virtual HTTPS' if VIRTUAL else 'local HTTP'))
@@ -145,7 +149,9 @@ with sync_playwright() as p:
   blocked.goto(BASE,wait_until='networkidle');blocked.click('#start');blocked.locator('.option').nth(1).click();assert '未允许' in blocked.locator('#quiz-storage').inner_text();blocked.close();ok('storage-disabled browser still answers without crashing and discloses no recovery')
   bad=page_at();bad.evaluate("sessionStorage.setItem(FinanceSession.KEY,'{bad-json')");bad.reload(wait_until='networkidle');assert bad.locator('#resume-banner').is_hidden();bad.close();ok('corrupt recovery data discarded safely')
   if not LIVE and ENGINE=='chromium' and os.environ.get('QA_NO_PREVIEW')!='1':
-   page=page_at();page.set_viewport_size({'width':1200,'height':630});cast=page.locator('.cast-card img');assert cast.count()>0;[wait_image_loaded(cast.nth(i)) for i in range(cast.count())];page.screenshot(path=str(ROOT/'assets/social-preview.png'));page.close()
+   page=page_at();page.set_viewport_size({'width':1200,'height':630});cast=page.locator('.cast-card img');assert cast.count()>0;[wait_image_loaded(cast.nth(i)) for i in range(cast.count())]
+   preview=ROOT/'assets/social-preview.png' if os.environ.get('QA_UPDATE_PREVIEW')=='1' else OUT/'social-preview-chromium.png'
+   page.screenshot(path=str(preview));page.close()
   assert not errors,errors
   assert all(m=='GET' and (url.startswith(BASE) or url.startswith(('data:','blob:'))) for m,url in requests),[(m,u) for m,u in requests if not u.startswith(BASE)]
   ok('no JavaScript exceptions, no third-party runtime requests, no answer uploads')
