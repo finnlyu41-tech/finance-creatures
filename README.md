@@ -50,6 +50,8 @@ QA_BROWSER=chromium QA_OUTPUT=/tmp/finance-qa/chromium python3 tests/browser.tes
 QA_BROWSER=webkit QA_OUTPUT=/tmp/finance-qa/webkit python3 tests/browser.test.py
 ```
 
+本地 Chromium QA 默认把 1200×630 的首页预览写到 `QA_OUTPUT`，不会改动已提交的 `assets/social-preview.png`；只有明确设置 `QA_UPDATE_PREVIEW=1` 时才刷新正式社交预览图。
+
 `prepare-assets.py` 核验全部 16 张当前 WebP 的 SHA-256、实际解码、原始尺寸及来源清单，并要求四张替换图统一为 768×672（8:7），再生成只含公开类型链接的 QR。四张旧授权 SVG 仍按固定 Git blob 校验，缺失时只恢复原授权源文件，不替代新人物图。构建和访客运行都不会调用图像生成接口。原始答案、计分版本与旧分享链接保持不变。
 
 测试覆盖全部 16 型的完整答题、插画显示、PNG 导出、二维码解码、刷新恢复、浏览器后退、筛选、旧链接、七种屏幕宽度、禁用存储、损坏缓存、剪贴板拒绝。网页部署后还运行线上 HTTPS 冒烟检查。
