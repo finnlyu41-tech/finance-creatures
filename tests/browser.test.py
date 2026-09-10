@@ -134,6 +134,8 @@ with sync_playwright() as p:
   page.click('#quick-share');copy=page.evaluate('window.__copies.at(-1)');assert '#v4/type/provision' in copy and 'answers=' not in copy
   page.evaluate("Object.defineProperty(navigator,'clipboard',{configurable:true,value:{writeText:async()=>{throw new Error('denied')}}})")
   page.click('#quick-share');assert page.locator('#copy-fallback').is_visible() and '#v4/type/provision' in page.locator('#copy-text').input_value()
+  assert page.locator('#copy-text').evaluate("el=>getComputedStyle(el).outlineStyle")!='none'
+  page.click('#quick-save');page.wait_for_selector('#save-dialog[open]');assert page.locator('#save-dialog').get_attribute('aria-describedby')=='save-message';page.click('#close-save')
   ok('fresh shared links do not invent personal scores; share cancellation is silent and blocked share falls back to copy/manual text')
   for width in [320,360,390,430,768,1280,1440]:
    page.set_viewport_size({'width':width,'height':900})
